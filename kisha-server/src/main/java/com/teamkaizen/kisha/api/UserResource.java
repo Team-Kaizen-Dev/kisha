@@ -2,7 +2,11 @@ package com.teamkaizen.kisha.api;
 
 import com.teamkaizen.kisha.user.User;
 import com.teamkaizen.kisha.user.UserService;
+import jdk.nashorn.internal.objects.annotations.Getter;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * @author Michael Ryan A. Paclibar <michael@satellite.com.ph>
@@ -18,8 +22,8 @@ public class UserResource {
         this.userService = userService;
     }
 
-    //FIXME This is a jowk. For testing/demo purposes only.
-    //TODO Revise web security by implementing OAuth2 with JWT Authentication.
+    //TODO For testing/demo purposes only.
+    //TODO Revise web security by implementing OAuth2 with JWT Authentication. If will go for full implementation
 
     @PostMapping("/register")
     public User register(@RequestBody User user) {
@@ -30,4 +34,5 @@ public class UserResource {
     public User login(@RequestParam String username, @RequestParam String password) {
         return userService.login(username, password);
     }
+
 }
