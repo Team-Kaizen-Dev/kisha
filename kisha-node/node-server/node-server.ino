@@ -2,7 +2,6 @@
 #include <RH_RF95.h>
 
 #define LED 10
-
 RH_RF95 rf95;
 
 void setup() {
@@ -15,6 +14,7 @@ void setup() {
   }
   rf95.setFrequency(915);
   rf95.setTxPower(20, false);
+  Serial.println("Initialization success!");
 }
 
 void loop() {

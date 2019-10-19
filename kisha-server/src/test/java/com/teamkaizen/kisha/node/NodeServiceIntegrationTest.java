@@ -11,7 +11,7 @@ public class NodeServiceIntegrationTest extends KishaApplicationTests {
 
     @Test
     public void saveReportTest() {
-        String message = "1-2-10.3458293,122.16342-test_message";
+        String message = "DATALOG: 1-2-10.3458293,122.16342-test_message";
         nodeService.saveReport(message);
     }
 }
