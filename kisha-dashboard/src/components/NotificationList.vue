@@ -13,5 +13,13 @@
 </template>
 
 <script>
-  export default {}
+
+  export default {
+    props: {
+      dateSelected: {
+        type: Number,
+        default: new Date().getMilliseconds()
+      }
+    }
+  }
 </script>
