@@ -4,8 +4,12 @@
             <q-toolbar class="text-green-9 bg-white">
                 <q-btn dense flat round icon="menu" @click="miniState = !miniState"/>
                 <q-toolbar-title>
-                    Date Input
-                    <!--add search bar for location?-->
+                    <span name="event" class="cursor-pointer">
+                        <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                            <q-date color="green-8" v-model="dateSelected" @input="dateChanged"/>
+                        </q-popup-proxy>
+                        {{formatDate(dateSelected)}}
+                    </span>
                 </q-toolbar-title>
                 <q-btn dense flat round icon="far fa-bell" @click="rightDrawerOpen = !rightDrawerOpen"/>
             </q-toolbar>
@@ -42,6 +46,8 @@
 <script>
   import NotificationList from '../components/NotificationList'
   import LegendList from '../components/LegendList'
+  import {date} from 'quasar'
+  import {EventBus, events} from '../boot/event-bus'
 
   export default {
     name: 'MainLayout',
@@ -50,12 +56,21 @@
     },
     data() {
       return {
+        dateSelected: new Date(),
         leftDrawerOpen: true,
         rightDrawerOpen: false,
         miniState: true,
       }
     },
     computed: {},
-    methods: {}
+    methods: {
+      formatDate(value, format = "MM/DD/YYYY") {
+        return date.formatDate(value, format)
+      },
+      dateChanged(val) {
+        this.$refs.qDateProxy.hide()
+        EventBus.$emit(events.DATE_SELECT.DATE_CHANGED, val)
+      }
+    }
   }
 </script>
