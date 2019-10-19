@@ -1,13 +1,12 @@
 package com.teamkaizen.kisha.api;
 
 import com.teamkaizen.kisha.datalog.DataLog;
+import com.teamkaizen.kisha.datalog.DataLogRequest;
 import com.teamkaizen.kisha.datalog.DataLogService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +25,11 @@ public class DatalogResource {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
+    @PostMapping("/saveDataLog")
+    public DataLog save(@RequestBody DataLogRequest dataLogRequest) {
+        return dataLogService.saveDataLog(dataLogRequest);
+    }
+
     @GetMapping("/list")
     public List<DataLog> findAll() {
         return dataLogService.findAll();
@@ -41,6 +45,6 @@ public class DatalogResource {
         dataLog.setLng(79.33333);
         dataLog.setTypeOfDisaster(0);
         Thread.sleep(1000); // simulated delay
-        simpMessagingTemplate.convertAndSend("/datalog",dataLog);
+        simpMessagingTemplate.convertAndSend("/topic/datalog",dataLog);
     }
 }

@@ -2,11 +2,7 @@ package com.teamkaizen.kisha.api;
 
 import com.teamkaizen.kisha.user.User;
 import com.teamkaizen.kisha.user.UserService;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.HtmlUtils;
 
 /**
  * @author Michael Ryan A. Paclibar <michael@satellite.com.ph>

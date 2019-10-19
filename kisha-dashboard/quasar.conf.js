@@ -70,10 +70,10 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       // https: true,
-      port: 8081,
+      port: 8080,
       proxy: {
         '/api': {
-          target: 'http://localhost:8082',
+          target: 'http://localhost:8081',
           changeOrigin: true
         },
       },

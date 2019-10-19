@@ -28,8 +28,11 @@ void setup() {
 }
 
 void loop() {
-  uint8_t data[] = "2-18-10.34582938482393,122.163423582";
-  rf95.send(data, sizeof(data));
+  String dataLog = "2-1-10.3458293,122.16342-test_message";
+  uint8_t payload[dataLog.length() + 1];
+  dataLog.getBytes(payload, dataLog.length() + 1);
+  
+  rf95.send(payload, dataLog.length() + 1);
 
   rf95.waitPacketSent();
   // Now wait for a reply

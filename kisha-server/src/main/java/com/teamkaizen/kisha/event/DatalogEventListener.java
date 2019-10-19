@@ -2,10 +2,12 @@ package com.teamkaizen.kisha.event;
 
 import com.teamkaizen.kisha.datalog.DataLogService;
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Michael Ryan A. Paclibar <michael@satellite.com.ph>
  */
+@Component
 public class DatalogEventListener implements ApplicationListener<DatalogEvent> {
 
     private final DataLogService dataLogService;

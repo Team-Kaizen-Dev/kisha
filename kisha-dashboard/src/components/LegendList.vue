@@ -17,6 +17,7 @@
                             :key="level.id"
                             square
                             dense
+                            @click="emitValue"
                             :selected.sync="selectedTypes[level.id]"
                             :color="selectedTypes[level.id] ? getColor(level.label) : 'grey'"
                             text-color="white"
@@ -30,6 +31,8 @@
 </template>
 
 <script>
+  import {EventBus, events} from '../boot/event-bus'
+
   export default {
     props: {
       mini: {
@@ -160,10 +163,14 @@
           return 'negative'
         }
       },
+      emitValue(){
+        EventBus.$emit(events.LEGEND_SELECT.LEGEND_SELECTED, this.selectedTypes)
+      },
       toggleAllLevels(type) {
         type.levels.forEach(level => {
           this.selectedTypes[level.id] = !this.selectedTypes[level.id]
         })
+        EventBus.$emit(events.LEGEND_SELECT.LEGEND_SELECTED, this.selectedTypes)
       },
       isActive(type) {
         let typeLevels = type.levels.map(level => this.selectedTypes[level.id])
