@@ -106,6 +106,7 @@ public class RegistrationActivity extends BaseAppCompatActivity {
             user.setUsername(userName);
             user.setLat(location.getLatitude());
             user.setLng(location.getLongitude());
+            displayProgressDialog("Creating User...");
 
             new Thread(){
                 @Override
@@ -114,10 +115,17 @@ public class RegistrationActivity extends BaseAppCompatActivity {
                     try {
                         User createdUser = LogicFactory.getAuthLogic().createUser(user);
                         UserPreferences.getInstance().setAccountId(createdUser.getId());
-                        runOnUiThread(() -> finish());
+                        runOnUiThread(() -> {
+                            dismissProgressDialog();
+                            showToast("User successfully created");
+                            finish();
+                        });
                     } catch (Exception e) {
                         e.printStackTrace();
-                        runOnUiThread(() -> showToast(e.getMessage()));
+                        runOnUiThread(() -> {
+                            dismissProgressDialog();
+                            showToast(e.getMessage());
+                        });
                     }
                 }
             }.start();

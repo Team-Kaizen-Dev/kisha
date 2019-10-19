@@ -11,6 +11,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kaizen.team.kishaapp.R;
 import com.kaizen.team.kishaapp.activities.BaseAppCompatActivity;
 import com.kaizen.team.kishaapp.activities.ScanBluetoothActivity;
+import com.kaizen.team.kishaapp.activities.login.LoginActivity;
 import com.kaizen.team.kishaapp.adapters.HazardAdapter;
 import com.kaizen.team.kishaapp.core.logic.LogicFactory;
 import com.kaizen.team.kishaapp.core.util.InternetUtil;
@@ -372,4 +375,23 @@ public class MainActivity extends BaseAppCompatActivity {
             Log.w("Location Updates", "provider disabled " + s);
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.logout){
+            UserPreferences.getInstance().clearLoggedInUser();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
