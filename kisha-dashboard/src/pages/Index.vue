@@ -74,7 +74,9 @@
         this.stompClient.subscribe('/topic/datalog', this.addReport)
       },
       addReport(response) {
-        console.log(JSON.parse(response.body))
+        let dataLog = JSON.parse(response.body)
+        this.dataLogs.unshift(dataLog)
+        EventBus.$emit(events.NOTIFICATION.NEW_DATA_LOG, dataLog)
       },
       initiateWebsocketConnection() {
         this.socket = new SockJS('/api/socket')
@@ -91,6 +93,7 @@
           startDate: date.startOfDate(value, 'day'),
           endDate: date.endOfDate(value, 'day')
         }).filter(v => filters.every(f => f(v.typeOfDisaster)))
+        EventBus.$emit(events.DATA_LOG.DATA_LOG_GENERATED, this.dataLogs)
       }
     },
     computed: {

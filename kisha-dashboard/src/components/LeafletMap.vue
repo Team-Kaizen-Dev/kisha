@@ -8,8 +8,8 @@
                @update:center="onMapDragEnd"
                @update:zoom="onZoomEnd">
             <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-            <template v-for="dataLog in dataLogs">
-                <l-marker ref="marker"
+            <template v-for="(dataLog, index) in dataLogs">
+                <l-marker :ref="`marker-${dataLog.id}`"
                           :lat-lng="getMarker(dataLog.lat,dataLog.lng)">
                     <l-popup>
                         <div>
@@ -228,6 +228,11 @@
         }
         return [lat, lng]
       },
+      openPopup(event) {
+        this.$nextTick(() => {
+          event.target.openPopup();
+        })
+      },
     },
     mounted() {
       /*
@@ -267,9 +272,15 @@
           window.dispatchEvent(new Event('resize'))
         }, 250)
       })
+      EventBus.$on(events.LEAFLET_MAP.GO_TO_MARKER, (payload) => {
+        this.lat = parseFloat(payload.lat)
+        this.lng = parseFloat(payload.lng)
+        //TODO add opening of popup
+      })
     },
     beforeDestroy() {
       EventBus.$off(events.LEAFLET_MAP.EVENT_RESIZE)
+      EventBus.$off(events.LEAFLET_MAP.GO_TO_MARKER)
     },
     watch: {
       currentLat(newVal, oldVal) {
