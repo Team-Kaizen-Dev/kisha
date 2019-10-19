@@ -11,13 +11,12 @@ void setup() {
 void loop() { 
   bluetoothSerial.listen();
   if (bluetoothSerial.available()) {
-    char data = bluetoothSerial.read();
-    Serial.write(data);
-    Serial.println();
+    String data = bluetoothSerial.readString();
+    byte bytes[data.length()];
+    data.getBytes(bytes, data.length());
   }
   if (Serial.available()) {
-    char data = Serial.read();
-    bluetoothSerial.write(data);
-    Serial.println();
+    String data = Serial.readString();
+    bluetoothSerial.println(data);
   }
 }
