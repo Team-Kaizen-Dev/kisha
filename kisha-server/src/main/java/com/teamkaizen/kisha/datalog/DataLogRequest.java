@@ -12,4 +12,5 @@ public class DataLogRequest {
     private String message;
     private double lat;
     private double lng;
+    private long timeLogged;
 }

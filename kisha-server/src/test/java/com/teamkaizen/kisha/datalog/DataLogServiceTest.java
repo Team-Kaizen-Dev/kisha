@@ -29,6 +29,7 @@ class DataLogServiceTest extends KishaApplicationTests {
         dataLog.setLat(121.11111);
         dataLog.setLng(79.33333);
         dataLog.setTypeOfDisaster(0);
+        dataLog.setTimeLogged(System.currentTimeMillis());
         final DataLog savedDataLog = dataLogService.saveDataLog(dataLog);
         assertNotNull(savedDataLog);
     }

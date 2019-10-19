@@ -29,6 +29,7 @@ public class DataLogServiceImpl implements DataLogService {
         dataLog.setLat(dataLogRequest.getLat());
         dataLog.setLng(dataLogRequest.getLng());
         dataLog.setTypeOfDisaster(dataLogRequest.getTypeOfDisaster());
+        dataLog.setTimeLogged(dataLogRequest.getTimeLogged());
 
         final User user = userRepository.findById(dataLogRequest.getUserId()).orElseThrow(() -> new IllegalArgumentException("User does not exists"));
         dataLog.setUserId(user.getId());
