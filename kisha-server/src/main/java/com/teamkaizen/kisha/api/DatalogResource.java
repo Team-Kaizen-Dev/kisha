@@ -1,13 +1,12 @@
 package com.teamkaizen.kisha.api;
 
 import com.teamkaizen.kisha.datalog.DataLog;
+import com.teamkaizen.kisha.datalog.DataLogRequest;
 import com.teamkaizen.kisha.datalog.DataLogService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +23,11 @@ public class DatalogResource {
     public DatalogResource(DataLogService dataLogService, SimpMessagingTemplate simpMessagingTemplate) {
         this.dataLogService = dataLogService;
         this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
+    @PostMapping("/saveDataLog")
+    public DataLog save(@RequestBody DataLogRequest dataLogRequest) {
+        return dataLogService.saveDataLog(dataLogRequest);
     }
 
     @GetMapping("/list")
