@@ -39,7 +39,7 @@
         this.map.lng = y
       },
       onStompConnected() {
-        this.stompClient.subscribe('/topic/datalog/', this.addReport)
+        this.stompClient.subscribe('/topic/datalog', this.addReport)
       },
       addReport(response) {
         console.log(JSON.parse(response.body))
