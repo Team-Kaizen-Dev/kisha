@@ -4,17 +4,17 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.kaizen.team.kishaapp.R;
 import com.kaizen.team.kishaapp.adapters.ScanBluetoothAdapter;
 import com.kaizen.team.kishaapp.bluetooth.BluetoothManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.UUID;
  */
 public class ScanBluetoothActivity extends BaseAppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 1123;
-
+    private static com.kaizen.team.kishaapp.bluetooth.BluetoothManager manager;
     private RecyclerView recyclerView;
 
 
@@ -81,13 +81,7 @@ public class ScanBluetoothActivity extends BaseAppCompatActivity {
                     Log.w("SELECTED BLUETOOTH", part[1]);
                     BluetoothDevice device = adapter.getRemoteDevice(part[1]);
                     UUID applicationUUID = UUID.fromString(device.getUuids()[0].toString());
-                    com.kaizen.team.kishaapp.bluetooth.BluetoothManager manager = new BluetoothManager(device, true, adapter, Arrays.asList(applicationUUID));
-                    try {
-                        BluetoothManager.BluetoothSocketWrapper wrapper =  manager.connect();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    manager = new BluetoothManager(device, true, adapter, Arrays.asList(applicationUUID));
                 } else {
                     Log.w("SELECTED BLUETOOTH", "not available");
                 }
@@ -95,10 +89,16 @@ public class ScanBluetoothActivity extends BaseAppCompatActivity {
         };
     }
 
+    public static void sendData(String data) throws Exception {
+        BluetoothManager.BluetoothSocketWrapper wrapper =  manager.connect();
+        wrapper.getOutputStream().write(data.getBytes());
+        wrapper.close();
+    }
+
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
     }
 
     private void setUpBluetoothAdapter() {
