@@ -5,10 +5,10 @@
             <q-separator></q-separator>
             <q-item clickable @click="toggleAllLevels(type)">
                 <q-item-section avatar>
-                    <q-icon :name="type.icon" :color="getTypeIconColor(type)"/>
+                    <q-icon :name="type.icon" :color="isActive(type) ? 'black' : 'grey'"/>
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label>{{type.label}}</q-item-label>
+                    <q-item-label :class="isActive(type) ? 'text-bold' : ''">{{type.label}}</q-item-label>
                 </q-item-section>
             </q-item>
             <q-item v-if="!mini" class="row">
@@ -165,10 +165,10 @@
           this.selectedTypes[level.id] = !this.selectedTypes[level.id]
         })
       },
-      getTypeIconColor(type) {
+      isActive(type) {
         let typeLevels = type.levels.map(level => this.selectedTypes[level.id])
-      },
-    },
-
+        return typeLevels.includes(true);
+      }
+    }
   }
 </script>
