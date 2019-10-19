@@ -45,6 +45,6 @@ public class DatalogResource {
         dataLog.setLng(79.33333);
         dataLog.setTypeOfDisaster(0);
         Thread.sleep(1000); // simulated delay
-        simpMessagingTemplate.convertAndSend("/datalog",dataLog);
+        simpMessagingTemplate.convertAndSend("/topic/datalog",dataLog);
     }
 }
