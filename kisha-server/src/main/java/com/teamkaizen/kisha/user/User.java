@@ -19,5 +19,6 @@ public class User implements Serializable {
     private String fullName;
     private String contactNumber;
     private String address;
-    private double[] coordinates;
+    private double lat;
+    private double lng;
 }
