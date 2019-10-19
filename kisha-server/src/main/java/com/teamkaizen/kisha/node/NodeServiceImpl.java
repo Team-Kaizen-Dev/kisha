@@ -13,6 +13,10 @@ class NodeServiceImpl implements NodeService {
 
     @Override
     public void saveReport(String payload) {
+        if (!payload.startsWith("DATALOG: ")) {
+            return;
+        }
+        payload = payload.replace("DATALOG: ", "");
         String[] tokens = payload.split("-");
         if (tokens.length != 4) {
             throw new IllegalArgumentException("Invalid report tokens.");

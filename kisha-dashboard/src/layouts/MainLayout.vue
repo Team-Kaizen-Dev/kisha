@@ -11,7 +11,9 @@
                         {{formatDate(dateSelected)}}
                     </span>
                 </q-toolbar-title>
-                <q-btn dense flat round icon="far fa-bell" @click="rightDrawerOpen = !rightDrawerOpen"/>
+                <q-btn dense flat round icon="fas fa-stream" @click="openNotificationsBar">
+                    <q-badge color="red" floating v-if="newNotifCount > 0">{{newNotifCount}}</q-badge>
+                </q-btn>
             </q-toolbar>
         </q-header>
         <q-drawer
@@ -33,11 +35,11 @@
                 content-class="bg-grey-1"
                 v-model="rightDrawerOpen"
                 side="right"
-                :width="225"
+                :width="325"
                 :breakpoint="500"
                 bordered>
             <div class="full-height">
-                <NotificationList/>
+                <NotificationList :data-logs="dataLogs"/>
             </div>
         </q-drawer>
     </q-layout>
@@ -60,6 +62,8 @@
         leftDrawerOpen: true,
         rightDrawerOpen: false,
         miniState: true,
+        newNotifCount: 0,
+        dataLogs: []
       }
     },
     computed: {},
@@ -70,7 +74,25 @@
       dateChanged(val) {
         this.$refs.qDateProxy.hide()
         EventBus.$emit(events.DATE_SELECT.DATE_CHANGED, val)
+      },
+      openNotificationsBar() {
+        if (!this.rightDrawerOpen) {
+          this.newNotifCount = 0
+        }
+        this.rightDrawerOpen = !this.rightDrawerOpen
       }
+    },
+    created() {
+      EventBus.$on(events.NOTIFICATION.NEW_DATA_LOG, () => {
+        this.newNotifCount += 1
+      })
+      EventBus.$on(events.DATA_LOG.DATA_LOG_GENERATED, (logs) => {
+        this.dataLogs = logs
+      })
+    },
+    beforeDestroy() {
+      EventBus.$off(events.NOTIFICATION.NEW_DATA_LOG)
+      EventBus.$off(events.DATA_LOG.DATA_LOG_GENERATED)
     }
   }
 </script>
