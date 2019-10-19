@@ -6,6 +6,6 @@ import java.util.List;
  * @author Michael Ryan A. Paclibar <michael@satellite.com.ph>
  */
 public interface DataLogService {
-    DataLog saveDataLog(DataLog dataLog);
+    DataLog saveDataLog(DataLogRequest dataLogRequest);
     List<DataLog> findAll();
 }

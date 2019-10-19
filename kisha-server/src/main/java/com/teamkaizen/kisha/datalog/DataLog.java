@@ -20,12 +20,15 @@ public class DataLog implements Serializable {
     private int version;
     @CreatedDate
     private long dateCreated;
-    private int userId;
+
+    private long userId;
     private String fullName;
     private String contactNumber;
+    private String address;
+
     private double lat;
     private double lng;
-    private String typeOfHazard;
+    private int typeOfDisaster;
     private String message;
 
 }
