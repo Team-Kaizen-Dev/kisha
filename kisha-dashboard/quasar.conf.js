@@ -70,6 +70,12 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       port: 8081,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8082',
+          changeOrigin: true
+        },
+      },
       open: true // opens browser window automatically
     },
 
