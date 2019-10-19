@@ -1,6 +1,6 @@
 <template>
     <q-list bordered separator>
-        <q-item-label header>Data Logs</q-item-label>
+        <q-item-label header>Data</q-item-label>
         <template v-for="dataLog in dataLogs">
             <q-item bordered clickable @click="goToMarker(dataLog)" class="text-white"
                     :style="{background:getColor(dataLog)}">
@@ -8,7 +8,11 @@
                     <q-icon :name="getIcon(dataLog)" color="white"/>
                 </q-item-section>
                 <q-item-section>
+                    <q-item-label color="white">{{dataLog.fullName}}</q-item-label>
                     <q-item-label color="white">{{getLabel(dataLog)}}</q-item-label>
+                </q-item-section>
+                <q-item-section side top>
+                    <q-item-label style="color: white;" caption>{{changeDateFormat(dataLog.dateCreated)}}</q-item-label>
                 </q-item-section>
             </q-item>
         </template>

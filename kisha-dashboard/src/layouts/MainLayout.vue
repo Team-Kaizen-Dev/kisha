@@ -35,7 +35,7 @@
                 content-class="bg-grey-1"
                 v-model="rightDrawerOpen"
                 side="right"
-                :width="225"
+                :width="325"
                 :breakpoint="500"
                 bordered>
             <div class="full-height">
