@@ -17,8 +17,8 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kaizen.team.kishaapp.R;
-import com.kaizen.team.kishaapp.hazard.HazardCategory;
-import com.kaizen.team.kishaapp.hazard.HazardGenerator;
+import com.kaizen.team.kishaapp.datalog.data.HazardCategory;
+import com.kaizen.team.kishaapp.datalog.data.HazardGenerator;
 
 import java.util.List;
 
@@ -53,6 +53,9 @@ public class HazardAdapter extends RecyclerView.Adapter<HazardAdapter.HazardRowH
         holder.hazardNameTv.setText(category.getName());
         holder.textViewLayout.setBackgroundColor(ContextCompat.getColor(context, category.getColorId()));
         holder.parentLayout.setTag(category);
+//        holder.imageView.setColorFilter(R.color.white, android.graphics.PorterDuff.Mode.MULTIPLY);
+//        holder.imageView.setBackgroundColor(ContextCompat.getColor(context, category.getColorId()));
+//        holder.parentLayout.setBackgroundColor(ContextCompat.getColor(context, category.getColorId()));
         holder.parentLayout.setOnClickListener(listener);
     }
 

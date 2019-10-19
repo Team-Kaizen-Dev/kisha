@@ -1,9 +1,11 @@
 package com.kaizen.team.kishaapp.core.logic;
 
 
-import com.kaizen.team.kishaapp.authentication.logic.AuthLogic;
-import com.kaizen.team.kishaapp.authentication.logic.AuthLogicImpl;
 import com.kaizen.team.kishaapp.core.ws.RestHelper;
+import com.kaizen.team.kishaapp.datalog.logic.DataLogLogic;
+import com.kaizen.team.kishaapp.datalog.logic.DataLogLogicImpl;
+import com.kaizen.team.kishaapp.user.logic.UserLogic;
+import com.kaizen.team.kishaapp.user.logic.UserLogicImpl;
 import com.satellite.retrofit.retrofit.ServiceHandler;
 import com.satellite.retrofit.retrofit.ServiceMethod;
 
@@ -14,8 +16,12 @@ import com.satellite.retrofit.retrofit.ServiceMethod;
  */
 public class LogicFactory {
 
-    public static AuthLogic getAuthLogic() {
-        return AuthLogicImpl.getInstance(
-                new ServiceHandler(RestHelper.getInstance().createAuthApiInstance(ServiceMethod.class)));
+    public static UserLogic getAuthLogic() {
+        return UserLogicImpl.getInstance(
+                new ServiceHandler(RestHelper.getInstance().createApiInstance(ServiceMethod.class)));
+    }
+
+    public static DataLogLogic getDataLogLogic() {
+        return DataLogLogicImpl.getInstance(new ServiceHandler(RestHelper.getInstance().createApiInstance(ServiceMethod.class)));
     }
 }

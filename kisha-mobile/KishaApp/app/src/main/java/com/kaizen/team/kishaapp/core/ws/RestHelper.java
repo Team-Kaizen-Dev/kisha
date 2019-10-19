@@ -1,6 +1,7 @@
 package com.kaizen.team.kishaapp.core.ws;
 
 
+import com.kaizen.team.kishaapp.BuildConfig;
 import com.satellite.retrofit.retrofit.errors.NullOnEmptyConverterFactory;
 
 import okhttp3.OkHttpClient;
@@ -37,9 +38,9 @@ public class RestHelper {
                 .build().create(responseClass);
     }
 
-    public <T> T createBdsApiInstance(Class<T> responseClass) {
+    public <T> T createApiInstance(Class<T> responseClass) {
         return new Retrofit.Builder()
-//                .baseUrl(BuildConfig.BDS_API)
+                .baseUrl(BuildConfig.KISHA_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(new NullOnEmptyConverterFactory())
                 .client(okHttpClient())
