@@ -2,13 +2,14 @@ package com.kaizen.team.kishaapp.adapters;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.kaizen.team.kishaapp.R;
 
@@ -38,7 +39,7 @@ public class ScanBluetoothAdapter extends RecyclerView.Adapter<ScanBluetoothAdap
     @NonNull
     @Override
     public BluetoothNameHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View parentLayout = LayoutInflater.from(context).inflate(R.layout.bluetooth_selection_row, null);
+        View parentLayout = LayoutInflater.from(context).inflate(R.layout.bluetooth_selection_row, viewGroup, false);
         BluetoothNameHolder holder = new BluetoothNameHolder(parentLayout);
         return holder;
     }

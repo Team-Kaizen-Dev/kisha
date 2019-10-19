@@ -13,23 +13,12 @@
         <q-drawer
                 v-model="leftDrawerOpen"
                 bordered
-                :width="250"
+                :width="300"
                 :breakpoint="1024"
                 content-class="bg-grey-1"
                 :mini="miniState">
             <div class="full-height">
-                <q-list>
-                    <q-btn flat
-                    />
-                    <q-item>
-                        <q-item-section avatar>
-                            <q-icon name="fa fa-file-invoice"/>
-                        </q-item-section>
-                        <q-item-section>
-                            <q-item-label>Delivery Receipts</q-item-label>
-                        </q-item-section>
-                    </q-item>
-                </q-list>
+                <LegendList :mini="miniState"/>
             </div>
         </q-drawer>
 
@@ -52,11 +41,12 @@
 
 <script>
   import NotificationList from '../components/NotificationList'
+  import LegendList from '../components/LegendList'
 
   export default {
     name: 'MainLayout',
     components: {
-      NotificationList
+      NotificationList, LegendList
     },
     data() {
       return {

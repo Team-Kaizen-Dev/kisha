@@ -7,7 +7,8 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
-      'axios'
+      'axios',
+      'notification',
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -70,6 +71,12 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       port: 8081,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8082',
+          changeOrigin: true
+        },
+      },
       open: true // opens browser window automatically
     },
 
