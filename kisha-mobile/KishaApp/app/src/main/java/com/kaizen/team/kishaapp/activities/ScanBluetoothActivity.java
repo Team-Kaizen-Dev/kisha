@@ -90,6 +90,10 @@ public class ScanBluetoothActivity extends BaseAppCompatActivity {
         };
     }
 
+    public static boolean isManagagerReady() {
+        return manager != null;
+    }
+
     public static void sendData(String data) throws Exception {
         BluetoothManager.BluetoothSocketWrapper wrapper =  manager.connect();
         wrapper.getOutputStream().write(data.getBytes());

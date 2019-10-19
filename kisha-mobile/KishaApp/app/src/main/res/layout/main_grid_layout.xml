@@ -25,10 +25,10 @@
 
 
             <ImageView
-                android:layout_gravity="center"
                 android:id="@+id/imageView"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
+                android:layout_gravity="center"
                 android:padding="8dp" />
 
             <LinearLayout

@@ -64,6 +64,9 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private String getBluetoothHazardRequest(String userId, int hazardType, String coordinates, String message) {
         String request = "";
+        if (message.isEmpty()) {
+            message = " ";
+        }
         request += userId;
         request += ("-" + hazardType);
         request += ("-" + coordinates);
@@ -77,10 +80,15 @@ public class MainActivity extends BaseAppCompatActivity {
             public void onClick(View view) {
                 HazardCategory category = (HazardCategory) view.getTag();
                 int hazardCategoryValue = getHazardCategoryValue(category);
-                if (hazardCategoryValue == 11) {
-                    showOtherDialog(hazardCategoryValue, getOtherSelectedListener());
+                if (!InternetUtil.isNetworkAvailable(MainActivity.this) && !ScanBluetoothActivity.isManagagerReady()) {
+                     showToast("Please select Bluetooth Device");
+                     redirectToScanBluetooth();
                 } else {
-                    showDialog(hazardCategoryValue, getOnHazardCodeSelectedListener());
+                    if (hazardCategoryValue == 11) {
+                        showOtherDialog(hazardCategoryValue, getOtherSelectedListener());
+                    } else {
+                        showDialog(hazardCategoryValue, getOnHazardCodeSelectedListener());
+                    }
                 }
             }
         };
@@ -144,12 +152,17 @@ public class MainActivity extends BaseAppCompatActivity {
     }
 
     private void sendRequestViaBluetooth(String entry, int code, String latLng) {
-        long account = UserPreferences.getInstance().getAccountId();
-        String request = getBluetoothHazardRequest(String.valueOf(account), code, latLng, entry);
-        try {
-            ScanBluetoothActivity.sendData(request);
-        } catch (Exception e) {
-            showToast("Bluetooth error, please select Bluetooth device");
+        if (ScanBluetoothActivity.isManagagerReady()) {
+            long account = UserPreferences.getInstance().getAccountId();
+            String request = getBluetoothHazardRequest(String.valueOf(account), code, latLng, entry);
+            try {
+                ScanBluetoothActivity.sendData(request);
+            } catch (Exception e) {
+                showToast("Bluetooth error, please select Bluetooth device");
+                redirectToScanBluetooth();
+            }
+        } else {
+            showToast("Please select Bluetooth device");
             redirectToScanBluetooth();
         }
     }

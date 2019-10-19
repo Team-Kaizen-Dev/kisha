@@ -53,6 +53,9 @@ public class HazardAdapter extends RecyclerView.Adapter<HazardAdapter.HazardRowH
         holder.hazardNameTv.setText(category.getName());
         holder.textViewLayout.setBackgroundColor(ContextCompat.getColor(context, category.getColorId()));
         holder.parentLayout.setTag(category);
+//        holder.imageView.setColorFilter(R.color.white, android.graphics.PorterDuff.Mode.MULTIPLY);
+//        holder.imageView.setBackgroundColor(ContextCompat.getColor(context, category.getColorId()));
+//        holder.parentLayout.setBackgroundColor(ContextCompat.getColor(context, category.getColorId()));
         holder.parentLayout.setOnClickListener(listener);
     }
 
