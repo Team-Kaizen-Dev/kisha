@@ -1,4 +1,4 @@
-package com.kaizen.team.kishaapp.activities;
+package com.kaizen.team.kishaapp.activities.main;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -22,8 +22,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kaizen.team.kishaapp.R;
+import com.kaizen.team.kishaapp.activities.BaseAppCompatActivity;
+import com.kaizen.team.kishaapp.activities.ScanBluetoothActivity;
 import com.kaizen.team.kishaapp.adapters.HazardAdapter;
-import com.kaizen.team.kishaapp.hazard.HazardCategory;
+import com.kaizen.team.kishaapp.core.logic.LogicFactory;
+import com.kaizen.team.kishaapp.core.util.InternetUtil;
+import com.kaizen.team.kishaapp.datalog.data.DataLog;
+import com.kaizen.team.kishaapp.datalog.data.HazardCategory;
+import com.kaizen.team.kishaapp.user.UserPreferences;
 
 public class MainActivity extends BaseAppCompatActivity {
     private static final long LOCATION_REFRESH_TIME = 0;
@@ -91,17 +97,55 @@ public class MainActivity extends BaseAppCompatActivity {
                 Log.w("SELECTED CODE AND ENTRY", code + "" + entry);
                 if (location != null) {
                     String latLng = location.getLatitude() + "," + location.getLongitude();
-                    //TODO add user id
-                    //TODO add checker if there is network connection if true then call ws else send request via bluetooth
-                    sendRequestViaBluetooth(entry, code, latLng);
-                    //TODO send request here
+                    if (InternetUtil.isNetworkAvailable(MainActivity.this)) {
+                        sendRequestViaUrl(entry, code, location.getLatitude(), location.getLongitude());
+                    } else {
+                        sendRequestViaBluetooth(entry, code, latLng);
+                    }
                 }
             }
         };
     }
 
+    private void sendRequestViaUrl(String entry, int code, double latitude, double longitude) {
+        DataLog dataLog = new DataLog();
+        dataLog.setTimeLogged(System.currentTimeMillis());
+        dataLog.setUserId(UserPreferences.getInstance().getAccountId());
+        dataLog.setLat(latitude);
+        dataLog.setLng(longitude);
+        dataLog.setMessage(entry);
+        displayProgressDialog("Sending to server...");
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    LogicFactory.getDataLogLogic().saveLog(dataLog);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgressDialog();
+                            showToast("Successfully sent to server.");
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissProgressDialog();
+                            showToast(e.getMessage());
+                        }
+                    });
+
+                }
+            }
+        }.start();
+
+    }
+
     private void sendRequestViaBluetooth(String entry, int code, String latLng) {
-        String request = getBluetoothHazardRequest("", code, latLng, entry);
+        long account = UserPreferences.getInstance().getAccountId();
+        String request = getBluetoothHazardRequest(String.valueOf(account), code, latLng, entry);
         try {
             ScanBluetoothActivity.sendData(request);
         } catch (Exception e) {
@@ -123,10 +167,11 @@ public class MainActivity extends BaseAppCompatActivity {
 
                 if (location != null) {
                     String latLng = location.getLatitude() + "," + location.getLongitude();
-                    //TODO add user id
-                    //TODO add checker if there is network connection if true then call ws else send request via bluetooth
-                    sendRequestViaBluetooth("", code, latLng);
-                    //TODO send request here
+                    if (InternetUtil.isNetworkAvailable(MainActivity.this)) {
+                        sendRequestViaUrl("", code, location.getLatitude(), location.getLongitude());
+                    } else {
+                        sendRequestViaBluetooth("", code, latLng);
+                    }
                 }
             }
         };
@@ -206,7 +251,7 @@ public class MainActivity extends BaseAppCompatActivity {
                     showToast("Please enter your concern.");
                     return;
                 }
-                view.setTag(entry.getText().toString() + ":" + hazardCodeToAppend + 1);
+                view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 1));
                 onClickListener.onClick(view);
             }
         });
@@ -219,7 +264,7 @@ public class MainActivity extends BaseAppCompatActivity {
                     showToast("Please enter your concern.");
                     return;
                 }
-                view.setTag(entry.getText().toString() + ":" + hazardCodeToAppend + 2);
+                view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 2));
                 onClickListener.onClick(view);
             }
         });
@@ -232,7 +277,7 @@ public class MainActivity extends BaseAppCompatActivity {
                     showToast("Please enter your concern.");
                     return;
                 }
-                view.setTag(entry.getText().toString() + ":" + hazardCodeToAppend + 3);
+                view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 3));
                 onClickListener.onClick(view);
             }
         });

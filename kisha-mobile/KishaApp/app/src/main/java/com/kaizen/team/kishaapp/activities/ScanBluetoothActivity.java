@@ -82,6 +82,7 @@ public class ScanBluetoothActivity extends BaseAppCompatActivity {
                     BluetoothDevice device = adapter.getRemoteDevice(part[1]);
                     UUID applicationUUID = UUID.fromString(device.getUuids()[0].toString());
                     manager = new BluetoothManager(device, true, adapter, Arrays.asList(applicationUUID));
+                    finish();
                 } else {
                     Log.w("SELECTED BLUETOOTH", "not available");
                 }

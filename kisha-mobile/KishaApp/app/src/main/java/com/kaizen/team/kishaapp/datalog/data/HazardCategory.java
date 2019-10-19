@@ -1,4 +1,4 @@
-package com.kaizen.team.kishaapp.hazard;
+package com.kaizen.team.kishaapp.datalog.data;
 
 
 import lombok.Getter;

@@ -17,8 +17,8 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kaizen.team.kishaapp.R;
-import com.kaizen.team.kishaapp.hazard.HazardCategory;
-import com.kaizen.team.kishaapp.hazard.HazardGenerator;
+import com.kaizen.team.kishaapp.datalog.data.HazardCategory;
+import com.kaizen.team.kishaapp.datalog.data.HazardGenerator;
 
 import java.util.List;
 

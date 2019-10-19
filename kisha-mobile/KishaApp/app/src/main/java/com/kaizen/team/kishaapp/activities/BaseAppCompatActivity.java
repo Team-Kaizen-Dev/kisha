@@ -18,7 +18,7 @@ import com.kaizen.team.kishaapp.R;
  * Satellite GPS (GPS Tracking and Asset Management System)
  */
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
-    void showToast(String message) {
+    protected void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 

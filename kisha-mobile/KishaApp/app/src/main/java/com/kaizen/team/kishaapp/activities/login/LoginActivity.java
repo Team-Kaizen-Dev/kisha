@@ -13,9 +13,9 @@ import androidx.annotation.Nullable;
 
 import com.kaizen.team.kishaapp.R;
 import com.kaizen.team.kishaapp.activities.BaseAppCompatActivity;
-import com.kaizen.team.kishaapp.activities.MainActivity;
-import com.kaizen.team.kishaapp.authentication.AuthPreferences;
+import com.kaizen.team.kishaapp.activities.main.MainActivity;
 import com.kaizen.team.kishaapp.core.logic.LogicFactory;
+import com.kaizen.team.kishaapp.user.UserPreferences;
 
 /**
  * Created by Jesli Albert Bautista on 10/19/2019.
@@ -33,7 +33,21 @@ public class LoginActivity extends BaseAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        startMain();
         setupViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startMain();
+    }
+
+    private void startMain() {
+        if(UserPreferences.getInstance().getAccountId() != 0){
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
     }
 
     private void setupViews() {
@@ -41,6 +55,14 @@ public class LoginActivity extends BaseAppCompatActivity {
         passwordEt = findViewById(R.id.passwordEt);
         loginBtn = findViewById(R.id.loginBtn);
         setUpLoginClick();
+        setUpRegisterClick();
+    }
+
+    private void setUpRegisterClick() {
+        findViewById(R.id.registerTv).setOnClickListener(view -> {
+            startActivity(new Intent(this, RegistrationActivity.class));
+        });
+
     }
 
     private void setUpLoginClick() {
@@ -62,16 +84,13 @@ public class LoginActivity extends BaseAppCompatActivity {
                 displayProgressDialog("Logging in...");
                 new Thread(() -> {
                     try {
-                        AuthPreferences.setLoginUserName(userName);
-                        AuthPreferences.setLoginPassword(password);
-                        LogicFactory.getAuthLogic().getToken();
+                        LogicFactory.getAuthLogic().loginUser(userName, password);
                         runOnUiThread(() -> {
                             dismissProgressDialog();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         });
                     } catch (Exception e) {
-                        AuthPreferences.clear();
                         runOnUiThread(() -> {
                             dismissProgressDialog();
                             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

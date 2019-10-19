@@ -83,6 +83,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
         android:id="@+id/loginBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -95,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/registerTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
