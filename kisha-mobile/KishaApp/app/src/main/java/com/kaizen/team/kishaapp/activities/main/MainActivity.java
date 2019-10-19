@@ -354,7 +354,7 @@ public class MainActivity extends BaseAppCompatActivity {
         public void onLocationChanged(final Location location) {
             MainActivity.this.location = location;
             Log.w("Location Updates", location.getLatitude() + " " + location.getLongitude());
-            showToast(location.getLatitude() + " " + location.getLongitude());
+//            showToast(location.getLatitude() + " " + location.getLongitude());
         }
 
         @Override
