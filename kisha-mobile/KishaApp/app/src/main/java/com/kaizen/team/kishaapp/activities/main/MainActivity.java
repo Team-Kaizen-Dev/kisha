@@ -11,6 +11,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.kaizen.team.kishaapp.R;
 import com.kaizen.team.kishaapp.activities.BaseAppCompatActivity;
 import com.kaizen.team.kishaapp.activities.ScanBluetoothActivity;
+import com.kaizen.team.kishaapp.activities.login.LoginActivity;
 import com.kaizen.team.kishaapp.adapters.HazardAdapter;
 import com.kaizen.team.kishaapp.core.logic.LogicFactory;
 import com.kaizen.team.kishaapp.core.util.InternetUtil;
@@ -117,6 +120,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private void sendRequestViaUrl(String entry, int code, double latitude, double longitude) {
         DataLog dataLog = new DataLog();
+        dataLog.setTypeOfDisaster(code);
         dataLog.setTimeLogged(System.currentTimeMillis());
         dataLog.setUserId(UserPreferences.getInstance().getAccountId());
         dataLog.setLat(latitude);
@@ -157,6 +161,7 @@ public class MainActivity extends BaseAppCompatActivity {
             String request = getBluetoothHazardRequest(String.valueOf(account), code, latLng, entry);
             try {
                 ScanBluetoothActivity.sendData(request);
+                showToast("Successfully sent.");
             } catch (Exception e) {
                 showToast("Bluetooth error, please select Bluetooth device");
                 redirectToScanBluetooth();
@@ -255,6 +260,12 @@ public class MainActivity extends BaseAppCompatActivity {
 
         EditText entry = parentView.findViewById(R.id.otherEt);
 
+
+
+        builder.setView(parentView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
         Button lowBtn = parentView.findViewById(R.id.lowBtn);
 
         lowBtn.setOnClickListener(new View.OnClickListener() {
@@ -266,6 +277,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 }
                 view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 1));
                 onClickListener.onClick(view);
+                dialog.dismiss();
             }
         });
 
@@ -279,6 +291,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 }
                 view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 2));
                 onClickListener.onClick(view);
+                dialog.dismiss();
             }
         });
 
@@ -292,11 +305,9 @@ public class MainActivity extends BaseAppCompatActivity {
                 }
                 view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 3));
                 onClickListener.onClick(view);
+                dialog.dismiss();
             }
         });
-
-        builder.setView(parentView);
-        builder.show();
     }
 
     private void checkLocationPermission() {
@@ -372,4 +383,23 @@ public class MainActivity extends BaseAppCompatActivity {
             Log.w("Location Updates", "provider disabled " + s);
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.logout){
+            UserPreferences.getInstance().clearLoggedInUser();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
