@@ -120,6 +120,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private void sendRequestViaUrl(String entry, int code, double latitude, double longitude) {
         DataLog dataLog = new DataLog();
+        dataLog.setTypeOfDisaster(code);
         dataLog.setTimeLogged(System.currentTimeMillis());
         dataLog.setUserId(UserPreferences.getInstance().getAccountId());
         dataLog.setLat(latitude);
