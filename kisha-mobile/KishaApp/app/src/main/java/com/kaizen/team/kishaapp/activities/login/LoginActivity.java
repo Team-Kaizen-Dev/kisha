@@ -16,6 +16,7 @@ import com.kaizen.team.kishaapp.activities.BaseAppCompatActivity;
 import com.kaizen.team.kishaapp.activities.main.MainActivity;
 import com.kaizen.team.kishaapp.core.logic.LogicFactory;
 import com.kaizen.team.kishaapp.user.UserPreferences;
+import com.kaizen.team.kishaapp.user.data.User;
 
 /**
  * Created by Jesli Albert Bautista on 10/19/2019.
@@ -84,7 +85,8 @@ public class LoginActivity extends BaseAppCompatActivity {
                 displayProgressDialog("Logging in...");
                 new Thread(() -> {
                     try {
-                        LogicFactory.getAuthLogic().loginUser(userName, password);
+                        User user = LogicFactory.getAuthLogic().loginUser(userName, password);
+                        UserPreferences.getInstance().setAccountId(user.getId());
                         runOnUiThread(() -> {
                             dismissProgressDialog();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));

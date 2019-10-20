@@ -258,6 +258,12 @@ public class MainActivity extends BaseAppCompatActivity {
 
         EditText entry = parentView.findViewById(R.id.otherEt);
 
+
+
+        builder.setView(parentView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
         Button lowBtn = parentView.findViewById(R.id.lowBtn);
 
         lowBtn.setOnClickListener(new View.OnClickListener() {
@@ -269,6 +275,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 }
                 view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 1));
                 onClickListener.onClick(view);
+                dialog.dismiss();
             }
         });
 
@@ -282,6 +289,7 @@ public class MainActivity extends BaseAppCompatActivity {
                 }
                 view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 2));
                 onClickListener.onClick(view);
+                dialog.dismiss();
             }
         });
 
@@ -295,11 +303,9 @@ public class MainActivity extends BaseAppCompatActivity {
                 }
                 view.setTag(entry.getText().toString() + ":" + (hazardCodeToAppend + 3));
                 onClickListener.onClick(view);
+                dialog.dismiss();
             }
         });
-
-        builder.setView(parentView);
-        builder.show();
     }
 
     private void checkLocationPermission() {
