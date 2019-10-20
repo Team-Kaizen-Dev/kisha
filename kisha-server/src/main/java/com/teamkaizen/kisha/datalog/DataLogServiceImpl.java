@@ -2,7 +2,9 @@ package com.teamkaizen.kisha.datalog;
 
 import com.teamkaizen.kisha.user.User;
 import com.teamkaizen.kisha.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,15 +13,12 @@ import java.util.List;
  * @author Michael Ryan A. Paclibar <michael@satellite.com.ph>
  */
 @Service
+@RequiredArgsConstructor
 public class DataLogServiceImpl implements DataLogService {
 
     private final DataLogRepository dataLogRepository;
     private final UserRepository userRepository;
-
-    public DataLogServiceImpl(DataLogRepository dataLogRepository, UserRepository userRepository) {
-        this.dataLogRepository = dataLogRepository;
-        this.userRepository = userRepository;
-    }
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Override
     public DataLog saveDataLog(DataLogRequest dataLogRequest) {
@@ -37,7 +36,9 @@ public class DataLogServiceImpl implements DataLogService {
         dataLog.setContactNumber(user.getContactNumber());
         dataLog.setAddress(user.getAddress());
 
-        return dataLogRepository.save(dataLog);
+        dataLog = dataLogRepository.save(dataLog);
+        simpMessagingTemplate.convertAndSend("/topic/datalog", dataLog);
+        return dataLog;
     }
 
     @Override

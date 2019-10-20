@@ -27,9 +27,7 @@ public class DatalogResource {
 
     @PostMapping("/saveDataLog")
     public DataLog save(@RequestBody DataLogRequest dataLogRequest) {
-        final DataLog dataLog = dataLogService.saveDataLog(dataLogRequest);
-        simpMessagingTemplate.convertAndSend("/topic/datalog", dataLog);
-        return dataLog;
+        return dataLogService.saveDataLog(dataLogRequest);
     }
 
     @GetMapping("/list")
