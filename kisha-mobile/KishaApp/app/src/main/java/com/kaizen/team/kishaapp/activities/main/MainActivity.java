@@ -160,6 +160,7 @@ public class MainActivity extends BaseAppCompatActivity {
             String request = getBluetoothHazardRequest(String.valueOf(account), code, latLng, entry);
             try {
                 ScanBluetoothActivity.sendData(request);
+                showToast("Successfully sent.");
             } catch (Exception e) {
                 showToast("Bluetooth error, please select Bluetooth device");
                 redirectToScanBluetooth();
